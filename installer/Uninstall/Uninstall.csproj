@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- .NET Framework 4.8 is part of Windows 10/11, so this stays tiny and needs nothing installed. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>Uninstall</AssemblyName>
+    <RootNamespace>MatchReady.Installer</RootNamespace>
+    <ApplicationIcon>..\..\assets\MatchReady.ico</ApplicationIcon>
+    <ApplicationManifest>..\installer.manifest</ApplicationManifest>
+    <Version>1.2.0</Version>
+    <Product>Match Ready</Product>
+    <Description>Match Ready uninstaller</Description>
+    <DebugType>none</DebugType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\*.cs" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

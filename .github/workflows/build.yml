@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Test
+        run: dotnet test MatchReady.sln --nologo
+
+      - name: Build installer
+        shell: powershell
+        run: .\build\Build-Setup.ps1 -SkipTests
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: match-ready-${{ github.sha }}
+          path: |
+            dist/MatchReady-Setup.exe
+            dist/MatchReady.exe
+          retention-days: 14

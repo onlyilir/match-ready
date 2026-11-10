@@ -1,0 +1,57 @@
+name: Release
+
+# Push a tag like v1.2.0 to build the release files. The release is created as a DRAFT:
+# check it on GitHub, then press "Publish release" yourself.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build (tests included)
+        shell: powershell
+        run: .\build\Build-Setup.ps1
+
+      - name: Check the version matches the tag
+        shell: powershell
+        run: |
+          $tag = "${{ github.ref_name }}".TrimStart('v')
+          $v = (Get-Item dist\MatchReady.exe).VersionInfo.ProductVersion -replace '\+.*$', ''
+          if ($v -ne $tag) { throw "Tag $tag does not match the app version $v. Update <Version> in the .csproj files and InstallInfo.cs." }
+
+      - name: Hashes and notes
+        shell: powershell
+        run: |
+          $lines = foreach ($f in 'MatchReady-Setup.exe', 'MatchReady.exe') {
+            "| ``$f`` | ``$((Get-FileHash "dist\$f" -Algorithm SHA256).Hash)`` |"
+          }
+          $changes = (Get-Content CHANGELOG.md -Raw) -split '(?m)^## ' | Where-Object { $_ -like "${{ github.ref_name }}".TrimStart('v') + '*' } | Select-Object -First 1
+          @(
+            "**Download ``MatchReady-Setup.exe``**, run it and click Install. Or use ``MatchReady.exe`` without installing."
+            ''
+            'Windows may say "Windows protected your PC" because the app is not code-signed yet: click **More info**, then **Run anyway**.'
+            ''
+            '| File | SHA256 |'
+            '|---|---|'
+            $lines
+            ''
+            '## Changes'
+            ($changes -replace '^[^\r\n]*\r?\n', '')
+          ) | Set-Content release-notes.md -Encoding UTF8
+
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: powershell
+        run: gh release create "${{ github.ref_name }}" dist/MatchReady-Setup.exe dist/MatchReady.exe --draft --title "Match Ready ${{ github.ref_name }}" --notes-file release-notes.md

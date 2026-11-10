@@ -1,0 +1,18 @@
+# Build output
+bin/
+obj/
+dist/
+*.user
+.vs/
+TestResults/
+
+# Per-PC data (never commit someone's settings)
+config.json
+config.json.*
+
+# Private: maintainer notes and anything about specific people or PCs
+private/
+HANDOVER.md
+
+# Sysinternals tools are downloaded by the user, not shipped
+tools/handle*.exe
