@@ -36,7 +36,7 @@ jobs:
           $lines = foreach ($f in 'MatchReady-Setup.exe', 'MatchReady.exe') {
             "| ``$f`` | ``$((Get-FileHash "dist\$f" -Algorithm SHA256).Hash)`` |"
           }
-          $changes = (Get-Content CHANGELOG.md -Raw) -split '(?m)^## ' | Where-Object { $_ -like "${{ github.ref_name }}".TrimStart('v') + '*' } | Select-Object -First 1
+          $changes = (Get-Content CHANGELOG.md -Raw -Encoding UTF8) -split '(?m)^## ' | Where-Object { $_ -like "${{ github.ref_name }}".TrimStart('v') + '*' } | Select-Object -First 1
           @(
             "**Download ``MatchReady-Setup.exe``**, run it and click Install. Or use ``MatchReady.exe`` without installing."
             ''
