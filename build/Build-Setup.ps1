@@ -47,7 +47,11 @@ Copy-Item (Join-Path $dist 'setup\MatchReady-Setup.exe') $dist -Force
 Remove-Item (Join-Path $dist 'app'), (Join-Path $dist 'uninstall'), (Join-Path $dist 'setup') -Recurse -Force
 
 Write-Output ''
-foreach ($f in 'MatchReady-Setup.exe', 'MatchReady.exe') {
+$sums = foreach ($f in 'MatchReady-Setup.exe', 'MatchReady.exe') {
     $p = Join-Path $dist $f
-    Write-Output ("{0,-22} {1,6:N1} MB  SHA256 {2}" -f $f, ((Get-Item $p).Length / 1MB), (Get-FileHash $p -Algorithm SHA256).Hash)
+    $hash = (Get-FileHash $p -Algorithm SHA256).Hash
+    Write-Output ("{0,-22} {1,6:N1} MB  SHA256 {2}" -f $f, ((Get-Item $p).Length / 1MB), $hash) | Out-Host
+    "$($hash.ToLower())  $f"
 }
+# Same list the release publishes: the app's "Update now" checks downloads against it.
+[IO.File]::WriteAllLines((Join-Path $dist 'SHA256SUMS.txt'), $sums)

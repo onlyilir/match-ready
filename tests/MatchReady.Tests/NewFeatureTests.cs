@@ -114,8 +114,8 @@ public class NewFeatureTests
     {
         var j = new BoostEngine(Pc(), Defaults.Create(), sessionId: 1).Run(Opt());
         Assert.True(j.RamFreedBytes > 0);
-        Assert.Equal("1.5 GB", MainForm.FormatBytes(1_610_612_736));
-        Assert.Equal("500 MB", MainForm.FormatBytes(524_288_000));
+        Assert.Equal("1.5 GB", Ui.FormatBytes(1_610_612_736));
+        Assert.Equal("500 MB", Ui.FormatBytes(524_288_000));
     }
 
     // ---------- History ----------
@@ -139,9 +139,9 @@ public class NewFeatureTests
     [Fact]
     public void Durations_read_naturally()
     {
-        Assert.Equal("under a minute", MainForm.Duration(TimeSpan.FromSeconds(20)));
-        Assert.Equal("12 min", MainForm.Duration(TimeSpan.FromMinutes(12)));
-        Assert.Equal("1 h 12 min", MainForm.Duration(TimeSpan.FromMinutes(72)));
+        Assert.Equal("under a minute", Ui.Duration(TimeSpan.FromSeconds(20)));
+        Assert.Equal("12 min", Ui.Duration(TimeSpan.FromMinutes(12)));
+        Assert.Equal("1 h 12 min", Ui.Duration(TimeSpan.FromMinutes(72)));
     }
 
     // ---------- Log limit and broken settings ----------

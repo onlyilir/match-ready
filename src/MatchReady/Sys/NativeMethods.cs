@@ -131,6 +131,11 @@ internal static class NativeMethods
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern bool GlobalMemoryStatusEx(ref MEMORYSTATUSEX buffer);
 
+    /// <summary>Whole-PC CPU times (for the dashboard). No process handle involved.</summary>
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern bool GetSystemTimes(out System.Runtime.InteropServices.ComTypes.FILETIME idle,
+        out System.Runtime.InteropServices.ComTypes.FILETIME kernel, out System.Runtime.InteropServices.ComTypes.FILETIME user);
+
     // --- Console for --dry-run ---
     [DllImport("kernel32.dll")]
     public static extern bool AttachConsole(int pid);

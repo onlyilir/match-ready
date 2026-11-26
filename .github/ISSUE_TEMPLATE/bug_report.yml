@@ -1,0 +1,41 @@
+name: Something went wrong
+description: A crash, an error, or something that didn't come back after a restore.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! First, if a boost might still be on: press **RESTORE EVERYTHING**, or restart your PC. Nothing Match Ready does is permanent.
+  - type: input
+    id: version
+    attributes:
+      label: Match Ready version
+      description: Shown next to the title, or in About.
+      placeholder: v1.3.0
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows build
+      description: Win+R, type winver, press Enter.
+      placeholder: "26100.2894"
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log or crash report
+      description: In Match Ready, open Help and click **Copy log** (or use **Copy report** on the crash window), then paste here. Your Windows user name and PC name are already removed.
+      render: text
+  - type: checkboxes
+    id: faceit
+    attributes:
+      label: FACEIT
+      options:
+        - label: FACEIT showed a warning or message about Match Ready (please quote it above)

@@ -1,0 +1,15 @@
+name: Idea or app to add
+description: Suggest a feature, or an app/service that should (or should never) be closed during games.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+      description: For apps, include the program's name and what it's for (e.g. "Corsair iCUE: RGB lighting, safe to close").
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Ideas that touch the game, the anti-cheat, drivers or Windows security can't be added: Match Ready must stay FACEIT-safe. See [docs/FACEIT-NOTES.md](https://github.com/onlyilir/match-ready/blob/main/docs/FACEIT-NOTES.md).

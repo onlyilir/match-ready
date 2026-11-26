@@ -124,6 +124,8 @@ namespace MatchReady.Installer
             }
 
             Registry.CurrentUser.DeleteSubKeyTree(InstallInfo.UninstallKey, false);
+            // The app's name and icon for Windows notifications.
+            Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\AppUserModelId\onlyilir.MatchReady", false);
 
             if (Directory.Exists(InstallInfo.DataDir) && !InstallInfo.BoostActive &&
                 MessageBox.Show("Also delete Match Ready's log and boost history?", Title, MessageBoxButtons.YesNo,

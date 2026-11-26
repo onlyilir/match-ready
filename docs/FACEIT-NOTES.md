@@ -55,4 +55,5 @@ FACEIT's warning is about **Insider (Dev/Canary/Beta) preview builds**. Match Re
 
 - **Self-check:** Help → **Run self-check** (or `MatchReady.exe --self-check` from an admin terminal). It boosts services and settings without closing apps, restores, and proves everything is exactly as before. A report is saved to `%LOCALAPPDATA%\MatchReady\self-check.txt`.
 - **Handle check:** run [`tools/Check-Handles.ps1`](../tools/Check-Handles.ps1) while CS2 and a boost are running. It uses Microsoft's Sysinternals Handle tool and lists any handle Match Ready holds to CS2, Steam or FACEIT. The expected result is none.
-- **Network:** Match Ready makes **no network connections**, unless you click "Check for updates" or turn on the daily update check. That only asks GitHub for the newest version number. You can confirm with `netstat -bno` during a boost.
+- **Network:** Match Ready makes **no network connections**, unless you click "Check for updates", turn on the daily update check (never while CS2 runs), or click "Update now". Those only talk to GitHub. You can confirm with `netstat -bno` during a boost.
+- **Live dashboard:** the CPU and RAM numbers shown during a boost are whole-PC counters (`GetSystemTimes`, `GlobalMemoryStatusEx`). No process, including the game, is opened to read them.

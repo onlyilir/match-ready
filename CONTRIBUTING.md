@@ -17,7 +17,8 @@ Screenshots of every window (no admin, nothing changed): set `MR_SCREENSHOTS` to
 - New apps or services to close go into `Config/Defaults.cs`, never into code paths that bypass `Safety/Guard.cs`. Run the tests: `SafetyTests` fails if a default entry is on the protected list.
 - Every change to Windows must be journaled in `SessionJournal` **before** it happens and undone by `RestoreEngine`. Add a round-trip test in `EngineTests`.
 - No drivers, no unsigned third-party binaries, no packages beyond .NET and `System.ServiceProcess.ServiceController`.
-- No network code except `Sys/UpdateChecker.cs`, which stays opt-in.
+- No network code except `Sys/UpdateChecker.cs`, which stays opt-in. Downloads must be checked against the release's `SHA256SUMS.txt` before running.
+- Live numbers (dashboard) must come from whole-PC counters, never from opening other processes.
 - No scheduled tasks, registry Run keys or hidden background processes (antivirus treats them as malware persistence).
 
 ## Text and translations

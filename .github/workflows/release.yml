@@ -23,6 +23,13 @@ jobs:
         shell: powershell
         run: .\build\Build-Setup.ps1
 
+      # The app's "Update now" downloads this list and refuses any Setup whose SHA256 doesn't match.
+      - name: Checksums file
+        shell: powershell
+        run: |
+          $lines = foreach ($f in 'MatchReady-Setup.exe', 'MatchReady.exe') { "$((Get-FileHash "dist\$f" -Algorithm SHA256).Hash.ToLower())  $f" }
+          [IO.File]::WriteAllLines("$PWD\dist\SHA256SUMS.txt", $lines)
+
       - name: Check the version matches the tag
         shell: powershell
         run: |
@@ -54,4 +61,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         shell: powershell
-        run: gh release create "${{ github.ref_name }}" dist/MatchReady-Setup.exe dist/MatchReady.exe --draft --title "Match Ready ${{ github.ref_name }}" --notes-file release-notes.md
+        run: gh release create "${{ github.ref_name }}" dist/MatchReady-Setup.exe dist/MatchReady.exe dist/SHA256SUMS.txt --draft --title "Match Ready ${{ github.ref_name }}" --notes-file release-notes.md

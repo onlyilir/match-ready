@@ -47,9 +47,12 @@ Closing the window keeps Match Ready in the **tray** so Auto mode keeps working.
 
 When you restore, services and settings go back exactly as they were. Closed apps **stay closed** until you open them yourself or restart the PC, so nothing pops up after you play (you can turn reopening on in Settings).
 
+- While a boost is on, a **live dashboard** shows how long it's been on, free RAM (and how much the boost freed) and whole-PC CPU use.
 - **What was stopped** lists exactly what each of the last 10 boosts did, with a **Keep running next time** button on every app and service.
 - **Settings** lets you search, add any running app to the close list, or untick anything.
 - **Help** has a one-click **self-check** that proves restore puts everything back, plus **Copy log** for asking for help.
+- **Updates in one click** (optional): **Update now** downloads the new version, checks its SHA256 against the release, and reopens the app. Nothing updates without your click.
+- Follows Windows **high-contrast** mode, works fully with the **keyboard**, and stays sharp at any display scale.
 - The **Pro** tab is a checklist of things worth doing yourself once (Game Mode, GPU driver, `-high` launch option, FACEIT's AMD HPET fix).
 
 <p align="center">
@@ -65,7 +68,7 @@ When you restore, services and settings go back exactly as they were. Closed app
 - Turn off Windows Security, Defender, the firewall, Secure Boot, TPM or VBS.
 - Close Discord, antivirus, audio, network or graphics-driver software, or **any program that isn't on its list**.
 - Make permanent changes. Services are only paused (a reboot brings them back), and every change is written to disk **before** it happens. If the app crashes or is killed mid-boost, it puts everything back the next time it starts.
-- Connect to the internet, unless you click **Check for updates** or turn on the daily check. That only asks GitHub for the newest version number.
+- Connect to the internet, unless you click **Check for updates** or turn on the daily check (that asks GitHub for the newest version), or you click **Update now** (that downloads the new Setup from GitHub and installs it only if its SHA256 matches the release).
 
 How each of these is enforced and tested: [docs/FACEIT-NOTES.md](docs/FACEIT-NOTES.md) and [SECURITY.md](SECURITY.md).
 

@@ -17,7 +17,11 @@ Match Ready runs as administrator, because pausing Windows services needs it. Ad
 
 ## Network
 
-None, except the optional update check (a button in Help, or a daily check you can turn on). It sends one request to `api.github.com` for the newest release of this repository, with a generic user agent and no personal data. Nothing is downloaded or installed automatically.
+None, except optional updates:
+- **Check for updates** (a button in Help, or a daily check you can turn on, never while CS2 runs) sends one request to `api.github.com` for the newest release of this repository, with a generic user agent and no personal data.
+- **Update now** (only when you click it) downloads that release's `SHA256SUMS.txt` and `MatchReady-Setup.exe` from GitHub, checks the Setup's SHA256 against the list, deletes it if it doesn't match, and otherwise runs it to replace the app. It never runs while a boost is on or CS2 is running. Nothing is ever downloaded or installed automatically.
+
+Releases are built only by GitHub Actions; see [docs/CODE-SIGNING.md](docs/CODE-SIGNING.md).
 
 ## Crash safety
 

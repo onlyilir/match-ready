@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.3.0 (2026-11-26): a new look and one-click updates
+
+New
+- Rebuilt interface: smoother buttons and switches, rounded cards, sharp at every display scale.
+- Live dashboard while a boost is on: how long it's been on, free RAM (and how much the boost freed), and whole-PC CPU use.
+- One-click updates: "Update now" downloads the new version, checks its SHA256 against the release, installs and reopens. Still off unless you turn on update checks or press the button.
+- Real Windows notifications (with the app's name and icon) instead of the old tray balloons.
+- About page with the version, license, links and third-party notices, and this "What's new" screen after each update.
+- If something unexpected breaks, a calm "Something went wrong" window puts any boost back first, saves a report without your Windows user name or PC name, and can open a pre-filled GitHub issue.
+- Windows high-contrast mode is followed automatically, and everything works with the keyboard alone.
+- Setup can update quietly and supports silent installs (for winget).
+
+Changed
+- Needs Windows 10 version 2004 or newer (all supported Windows versions are).
+
 ## 1.2.0 (2026-11-10): first public release, now called Match Ready
 
 **Renamed** from CS2 Booster to Match Ready. Setup moves an existing CS2 Booster install over automatically (settings kept, old app removed), and the app brings over its log and any unfinished boost.

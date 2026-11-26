@@ -56,6 +56,8 @@ public sealed class AppConfig
     /// <summary>Opt-in: look for a newer release on GitHub at most once a day, never while CS2 runs.</summary>
     public bool CheckForUpdates { get; set; }
     public DateTime? LastUpdateCheckUtc { get; set; }
+    /// <summary>The version that last ran. When it changes, "What's new" is shown once.</summary>
+    public string? LastSeenVersion { get; set; }
     public bool EnsureGameMode { get; set; } = true;
     /// <summary>Closing the window keeps the booster in the tray (Auto mode keeps working). Exit is in the tray menu.</summary>
     public bool KeepInTray { get; set; } = true;

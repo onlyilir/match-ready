@@ -2,22 +2,36 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <!-- Windows 10 SDK target: gives access to native Windows notifications (toasts). Runs on Windows 10 2004+ and 11. -->
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <Nullable>enable</Nullable>
+    <!-- WPF for the windows; Windows Forms only for the tray icon (WPF has none). -->
+    <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>..\..\assets\MatchReady.ico</ApplicationIcon>
-    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <AssemblyName>MatchReady</AssemblyName>
-    <Version>1.2.0</Version>
+    <RootNamespace>MatchReady</RootNamespace>
+    <Version>1.3.0</Version>
     <Product>Match Ready</Product>
+    <Company>onlyilir</Company>
+    <Copyright>© 2026 onlyilir. MIT License.</Copyright>
     <Description>Pauses background apps and Windows services while CS2 runs. Never touches the game or FACEIT.</Description>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <!-- WPF and Windows Forms both have Application, Button, MessageBox…: keep Windows Forms names out of the global usings. -->
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+    <!-- WPF projects leave System.IO out (it clashes with System.Windows.Shapes.Path, which no .cs file here uses). -->
+    <Using Include="System.IO" />
+  </ItemGroup>
+
   <!-- Single self-contained exe: nothing else to install.
-       Trimming is not used: Windows Forms does not support it (NETSDK1175). Compression keeps the size down. -->
+       Trimming is not used: WPF and Windows Forms don't support it. Compression keeps the size down. -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
@@ -35,6 +49,11 @@
   <ItemGroup>
     <InternalsVisibleTo Include="MatchReady.Tests" />
     <EmbeddedResource Include="..\..\assets\MatchReady.ico" LogicalName="MatchReady.ico" />
+    <!-- "What's new" reads the release notes from here. -->
+    <EmbeddedResource Include="..\..\CHANGELOG.md" LogicalName="CHANGELOG.md" />
+    <EmbeddedResource Include="..\..\LICENSE" LogicalName="LICENSE" />
+    <EmbeddedResource Include="..\..\THIRD-PARTY-NOTICES.md" LogicalName="THIRD-PARTY-NOTICES.md" />
+    <Resource Include="..\..\assets\MatchReady.ico" Link="Assets\MatchReady.ico" />
   </ItemGroup>
 
 </Project>

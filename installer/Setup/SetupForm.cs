@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -116,7 +117,7 @@ namespace MatchReady.Installer
             }
         }
 
-        static void Install(bool desktop, bool startMenu)
+        internal static void Install(bool desktop, bool startMenu)
         {
             var dir = InstallInfo.InstallDir;
             Directory.CreateDirectory(dir);
@@ -138,7 +139,9 @@ namespace MatchReady.Installer
                 var uninstall = Path.Combine(dir, InstallInfo.UninstallExe);
                 k.SetValue("DisplayName", InstallInfo.AppName);
                 k.SetValue("DisplayVersion", InstallInfo.Version);
-                k.SetValue("Publisher", InstallInfo.AppName);
+                k.SetValue("Publisher", "onlyilir");
+                k.SetValue("URLInfoAbout", "https://github.com/onlyilir/match-ready");
+                k.SetValue("HelpLink", "https://github.com/onlyilir/match-ready/issues");
                 k.SetValue("DisplayIcon", exe + ",0");
                 k.SetValue("InstallLocation", dir);
                 k.SetValue("UninstallString", "\"" + uninstall + "\"");
@@ -173,12 +176,79 @@ namespace MatchReady.Installer
 
     internal static class Program
     {
+        /// <summary>
+        /// No arguments: the normal Setup window.
+        /// --update PID: started by the app's "Update now". Waits for that copy to close, installs without questions
+        ///               (keeping the current shortcut choices) and reopens Match Ready.
+        /// --silent:     no window at all (for winget). Exit code 0 = installed, 2 = the app is running, 1 = failed.
+        /// </summary>
         [STAThread]
-        static void Main()
+        static int Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            var update = Array.IndexOf(args, "--update");
+            if (update >= 0) return RunUpdate(update + 1 < args.Length && int.TryParse(args[update + 1], out var pid) ? pid : 0);
+            if (args.Contains("--silent") || args.Contains("/S")) return RunSilent();
             Application.Run(new SetupForm());
+            return 0;
+        }
+
+        static int RunSilent()
+        {
+            if (InstallInfo.AppRunning()) return 2;
+            try
+            {
+                // Fresh install: Start menu shortcut only. Update: keep whatever shortcuts exist.
+                var existing = InstallInfo.IsInstalled || InstallInfo.Legacy.IsInstalled;
+                SetupForm.Install(desktop: File.Exists(InstallInfo.DesktopShortcut) || File.Exists(InstallInfo.Legacy.DesktopShortcut),
+                                  startMenu: !existing || File.Exists(InstallInfo.StartMenuShortcut) || File.Exists(InstallInfo.Legacy.StartMenuShortcut));
+                return 0;
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+
+        static int RunUpdate(int pid)
+        {
+            var form = new Form { Text = InstallInfo.AppName + " update", Width = 420, Height = 150, FormBorderStyle = FormBorderStyle.FixedDialog,
+                                  MaximizeBox = false, MinimizeBox = false, StartPosition = FormStartPosition.CenterScreen, BackColor = Ui.Back };
+            try { form.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { /* default icon */ }
+            var label = Ui.Label("Updating Match Ready… it reopens by itself in a moment.", 24, 34, 360, 40, Ui.Text, 10.5f);
+            form.Controls.Add(label);
+            var code = 0;
+            form.Shown += async (s, e) =>
+            {
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        if (pid > 0)
+                        {
+                            try { using (var p = Process.GetProcessById(pid)) p.WaitForExit(30000); }
+                            catch (ArgumentException) { /* already closed */ }
+                        }
+                        for (var i = 0; i < 40 && InstallInfo.AppRunning(); i++) System.Threading.Thread.Sleep(500);
+                        SetupForm.Install(desktop: File.Exists(InstallInfo.DesktopShortcut), startMenu: File.Exists(InstallInfo.StartMenuShortcut));
+                    });
+                    Process.Start(new ProcessStartInfo(Path.Combine(InstallInfo.InstallDir, InstallInfo.AppExe))
+                    {
+                        UseShellExecute = true,
+                        WorkingDirectory = InstallInfo.InstallDir,
+                    })?.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    code = 1;
+                    MessageBox.Show(form, "The update couldn't be installed: " + ex.Message + "\r\n\r\nYou can download Setup from GitHub instead.",
+                        InstallInfo.AppName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                form.Close();
+            };
+            Application.Run(form);
+            return code;
         }
     }
 }

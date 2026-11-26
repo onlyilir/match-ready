@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Is it FACEIT-safe? How does it work?
+    url: https://github.com/onlyilir/match-ready/blob/main/docs/FACEIT-NOTES.md
+    about: What Match Ready does and never does, and how it's tested.
+  - name: Security problem
+    url: https://github.com/onlyilir/match-ready/security/advisories/new
+    about: Please report security issues privately.

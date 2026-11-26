@@ -73,7 +73,7 @@ public sealed class PcInfo
         return NativeMethods.GlobalMemoryStatusEx(ref m) ? (long)m.ullTotalPhys : 0;
     }
 
-    static List<string> DetectGpus()
+    public static List<string> DetectGpus()
     {
         var list = new List<string>();
         try
