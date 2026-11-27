@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1 (2026-11-27): installer version fix
+
+Fixed
+- Setup showed "version 1.2.0" and registered 1.2.0 in Apps & features, even though the app was 1.3.0. The app, Setup and the uninstaller now share one version number, and releases check it.
+
 ## 1.3.0 (2026-11-26): a new look and one-click updates
 
 New

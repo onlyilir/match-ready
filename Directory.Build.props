@@ -1,0 +1,7 @@
+<Project>
+  <!-- The ONE place the version lives. The app, Setup and Uninstall all take it from here,
+       and Setup writes it to Apps & features (winget matches on that). Bump it for every release. -->
+  <PropertyGroup>
+    <Version>1.3.1</Version>
+  </PropertyGroup>
+</Project>

@@ -10,7 +10,8 @@ namespace MatchReady.Installer
     internal static class InstallInfo
     {
         public const string AppName = "Match Ready";
-        public const string Version = "1.2.0";
+        /// <summary>From Directory.Build.props via the assembly, so Setup can't drift from the app again.</summary>
+        public static readonly string Version = typeof(InstallInfo).Assembly.GetName().Version.ToString(3);
         public const string AppExe = "MatchReady.exe";
         public const string UninstallExe = "Uninstall.exe";
         public const string UninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\MatchReady";

@@ -11,7 +11,7 @@ body:
     attributes:
       label: Match Ready version
       description: Shown next to the title, or in About.
-      placeholder: v1.3.0
+      placeholder: v1.3.1
     validations:
       required: true
   - type: input

@@ -73,6 +73,27 @@ public class ProTests
     }
 
     [Fact]
+    public void App_Setup_and_Uninstall_share_one_version_number()
+    {
+        // 1.3.0 shipped a Setup that still said 1.2.0 (its own hard-coded copy). Keep one source.
+        var root = new DirectoryInfo(AppContext.BaseDirectory);
+        while (root != null && !File.Exists(Path.Combine(root.FullName, "Directory.Build.props"))) root = root.Parent;
+        Assert.NotNull(root);
+
+        var props = File.ReadAllText(Path.Combine(root!.FullName, "Directory.Build.props"));
+        var m = System.Text.RegularExpressions.Regex.Match(props, @"<Version>(\d+\.\d+\.\d+)</Version>");
+        Assert.True(m.Success, "Directory.Build.props needs <Version>x.y.z</Version>");
+        Assert.Equal(m.Groups[1].Value, typeof(Ui).Assembly.GetName().Version!.ToString(3));
+
+        foreach (var dir in new[] { "src", "installer" })
+            foreach (var proj in Directory.GetFiles(Path.Combine(root.FullName, dir), "*.csproj", SearchOption.AllDirectories))
+                Assert.DoesNotContain("<Version>", File.ReadAllText(proj));
+
+        var info = File.ReadAllText(Path.Combine(root.FullName, "installer", "Shared", "InstallInfo.cs"));
+        Assert.DoesNotMatch(@"Version\s*=\s*""\d", info);
+    }
+
+    [Fact]
     public void Cpu_use_is_computed_from_system_times()
     {
         // 1000 ticks passed (kernel 600 incl. 750 idle? no: kernel includes idle). Idle 750 of 1000 -> 25% busy.

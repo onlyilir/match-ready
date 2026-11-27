@@ -35,7 +35,9 @@ jobs:
         run: |
           $tag = "${{ github.ref_name }}".TrimStart('v')
           $v = (Get-Item dist\MatchReady.exe).VersionInfo.ProductVersion -replace '\+.*$', ''
-          if ($v -ne $tag) { throw "Tag $tag does not match the app version $v. Update <Version> in the .csproj files and InstallInfo.cs." }
+          if ($v -ne $tag) { throw "Tag $tag does not match the app version $v. Update <Version> in Directory.Build.props." }
+          $s = (Get-Item dist\MatchReady-Setup.exe).VersionInfo.ProductVersion -replace '\+.*$', ''
+          if ($s -ne $tag) { throw "Tag $tag does not match the Setup version $s (Setup writes it to Apps & features)." }
 
       - name: Hashes and notes
         shell: powershell

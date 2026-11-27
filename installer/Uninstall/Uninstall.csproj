@@ -9,7 +9,6 @@
     <RootNamespace>MatchReady.Installer</RootNamespace>
     <ApplicationIcon>..\..\assets\MatchReady.ico</ApplicationIcon>
     <ApplicationManifest>..\installer.manifest</ApplicationManifest>
-    <Version>1.2.0</Version>
     <Product>Match Ready</Product>
     <Description>Match Ready uninstaller</Description>
     <DebugType>none</DebugType>

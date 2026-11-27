@@ -1,5 +1,5 @@
 # Fills the winget manifest with the real SHA256 of a PUBLISHED release's Setup (downloads it from GitHub and hashes it).
-#   powershell -ExecutionPolicy Bypass -File build\Update-Winget.ps1 -Version 1.3.0
+#   powershell -ExecutionPolicy Bypass -File build\Update-Winget.ps1 -Version 1.3.1
 # Then submit the three files in winget\manifests\o\onlyilir\MatchReady\<version>\ to microsoft/winget-pkgs.
 param([Parameter(Mandatory)][string]$Version)
 $ErrorActionPreference = 'Stop'
