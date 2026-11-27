@@ -6,6 +6,8 @@ Match Ready closes background apps that eat RAM, CPU or graphics memory, pauses 
 
 [![Build](https://github.com/onlyilir/match-ready/actions/workflows/build.yml/badge.svg)](https://github.com/onlyilir/match-ready/actions/workflows/build.yml)
 
+**Website:** https://match-ready.pages.dev
+
 > Match Ready is an independent, free tool. It is **not affiliated with, endorsed by, or connected to Valve, Counter-Strike or FACEIT.**
 
 <p align="center">
