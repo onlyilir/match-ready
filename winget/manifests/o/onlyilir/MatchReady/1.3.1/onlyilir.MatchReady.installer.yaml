@@ -22,6 +22,6 @@ AppsAndFeaturesEntries:
 Installers:
 - Architecture: x64
   InstallerUrl: https://github.com/onlyilir/match-ready/releases/download/v1.3.1/MatchReady-Setup.exe
-  InstallerSha256: 0000000000000000000000000000000000000000000000000000000000000000
+  InstallerSha256: 801B8C73AFDE8DEDD2E05C8BA08B5D2089372C6545C9380C26D2EB5E07275B8A
 ManifestType: installer
 ManifestVersion: 1.6.0
